@@ -457,7 +457,7 @@ class Plotter:
         plot_metric_fn = vs_time_fn if xaxis == "elapsed_time" else vs_iter_fn
 
         include_rmse_nlpd: bool = True
-        include_nlml: bool = False
+        include_nlml: bool = True
 
         opts = dict(summarize=summarize, xlabel=xname)
 
@@ -473,7 +473,8 @@ class Plotter:
             fig.subplots_adjust(wspace=0, hspace=0)
             # plt.tight_layout(h_pad=0)
             plt.tight_layout(w_pad=0.7)
-            plt.show()
+            plt.savefig('/home/patel_zeel/tensorflow/CGLB/cglb_experiments/rmse_nlpd.png')
+            # plt.show()
 
         if include_nlml:
             # figsize = (3., 2.3)  # Rebuttal option
@@ -486,6 +487,7 @@ class Plotter:
             # )
             plot_metric_fn("loss", axis, ylabel="NLML", **opts)
             plt.tight_layout()
+            plt.savefig('/home/patel_zeel/tensorflow/CGLB/cglb_experiments/nlml.png')
             plt.show()
 
     def plot_cgstep(self, summarize: bool):
@@ -496,6 +498,7 @@ class Plotter:
             ylable="CG steps",
             xlable="Iteration",
         )
+        plt.savefig('/home/patel_zeel/tensorflow/CGLB/cglb_experiments/cgstep.png')
         plt.show()
 
     def plot_cgstep_fval(self, summarize: bool):
@@ -582,6 +585,7 @@ class Plotter:
 
         plt.tight_layout(pad=0)
         # plt.gcf().subplots_adjust(bottom=0.5)
+        plt.savefig('/home/patel_zeel/tensorflow/CGLB/cglb_experiments/cgstepfval.png')
         plt.show()
 
     def plot_metric_vs_iteration(

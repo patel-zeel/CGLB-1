@@ -24,12 +24,14 @@ rootdir = "logs"
 num_steps = 2000
 kernel = "Matern32"
 model = "cglb"
-seed = [999, 888, 777]
+seed = [1001, 1002, 1003]
+# seed = [1001]
 dataset = ["Wilson_bike", "Wilson_kin40k", "Wilson_elevators", "Wilson_pol", "Wilson_protein", "Wilson_keggundirected"]
-num_ips = [128, 256, 512, 1024, 2048, 4096]
-
+# dataset = ["Wilson_pol"]
+# num_ips = [128, 256, 512, 1024, 2048, 4096]
+num_ips = [1024, 2048, 4096]
 
 [flags]
 restart = false
-num_proc = 2
-gpu_indices = ["0", "1"]
+num_proc = 1
+gpu_indices = ["0"]

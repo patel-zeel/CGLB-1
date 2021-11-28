@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+ii = 0
 import json
 import numpy as np
 from pathlib import Path
@@ -66,14 +66,18 @@ class ExecuteContext:
 @click.pass_context
 def main(
     ctx: click.Context, backend: Backend, float_type: str, logdir: str, seed: int, keops: bool
-):
+):  
+    global ii
     logdir_path = Path(logdir).expanduser().resolve()
+    ii+=1;print('zlog', ii)
     logdir_path.mkdir(exist_ok=True, parents=True)
     logdir = str(logdir_path)
     backend.configure_backend(logdir=logdir, keops=keops)
+    ii+=1;print('zlog', ii)
     backend.set_default_float(float_type)
     backend.set_default_jitter(float_type)
     ctx.obj = Context(backend, seed, logdir)
+    ii+=1;print('zlog', ii)
 
 
 def create_optimize_fn(
@@ -144,12 +148,15 @@ _optimizer_choices = click.Choice(["scipy", "adam_0.1", "adam_0.01", "adam_0.001
 @click.option("-o", "--optimizer", type=_optimizer_choices, default="scipy")
 @click.pass_context
 def train(ctx: click.Context, dataset: DatasetBundle, num_steps: int, optimizer: str):
+    global ii
+    ii+=1;print('zlog', ii)
     main_ctx: Context = ctx.obj
     backend = main_ctx.backend
     optimize_fn = create_optimize_fn(
         backend, dataset, main_ctx.logdir, num_steps, main_ctx.seed, optimizer
     )
     ctx.obj = ExecuteContext(main_ctx=main_ctx, dataset=dataset, callback_fn=optimize_fn)
+    ii+=1;print('zlog', ii)
 
 
 @main.group()
@@ -267,10 +274,14 @@ def _execute_cb_cglb(
     vjoint: bool,
     vzero: bool,
 ):
+    global ii
+    ii+=1;print('zlog', ii)
     k: KernelConfig = kernel()
     iv: InducingVariableConfig = inducing_variable(num_inducing_variables)
+    ii+=1;print('zlog', ii)
     m: SGPRConfig = model_class(k, iv, max_error, vjoint, vzero)
     _execute_cb_on_model(ctx, m, param_file)
+    ii+=1;print('zlog', ii)
 
 
 def _execute_cb_cglbn2m(
